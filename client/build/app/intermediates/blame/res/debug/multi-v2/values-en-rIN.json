@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/vChat/vChat_v1/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rIN/values-en-rIN.xml",
+            "outputFile": "/mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rIN/values-en-rIN.xml",
             "map": [
                 {
-                    "source": "/home/soumics/.gradle/caches/transforms-2/files-2.1/a528b13ac93e64cafa3d0480e2c93207/core-1.1.0/res/values-en-rIN/values-en-rIN.xml",
+                    "source": "/home/soumics/.gradle/caches/transforms-2/files-2.1/3aaf6e5219b7f981ec263df919098c6f/core-1.1.0/res/values-en-rIN/values-en-rIN.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

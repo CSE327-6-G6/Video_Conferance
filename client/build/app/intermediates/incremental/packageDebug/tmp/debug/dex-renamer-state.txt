@@ -1,4 +1,4 @@
-#Wed Sep 23 03:47:27 BDT 2020
-base.0=/mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/vChat/vChat_v1/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+#Wed Sep 23 19:48:42 BDT 2020
+base.0=/mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
