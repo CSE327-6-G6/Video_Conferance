@@ -1,0 +1,4 @@
+build/
+google-service.json
+.packages
+node_modules
