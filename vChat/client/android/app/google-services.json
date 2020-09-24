@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "910639092851",
+    "firebase_url": "https://vchat-34b0a.firebaseio.com",
+    "project_id": "vchat-34b0a",
+    "storage_bucket": "vchat-34b0a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910639092851:android:39c5a132719a0b912fc606",
+        "android_client_info": {
+          "package_name": "com.example.vChat_v1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910639092851-f4v1naf9djnsq9tm49baf7cvrqj59fse.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLBaNTE6ZhivEY7j8acmHqv4aFTG1FMB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "910639092851-f4v1naf9djnsq9tm49baf7cvrqj59fse.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
