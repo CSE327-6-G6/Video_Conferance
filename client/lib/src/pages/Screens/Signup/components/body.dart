@@ -7,9 +7,16 @@ import 'package:vChat_v1/src/pages/components/already_have_an_account_acheck.dar
 import 'package:vChat_v1/src/pages/components/rounded_button.dart';
 import 'package:vChat_v1/src/pages/components/rounded_input_field.dart';
 import 'package:vChat_v1/src/pages/components/rounded_password_field.dart';
+import 'package:vChat_v1/src/utils/firebase.dart';
+import 'package:vChat_v1/src/models/User.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Body extends StatelessWidget {
+  String email;
+  String password;
+
+  User user = User.empty();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -29,14 +36,23 @@ class Body extends StatelessWidget {
             ),
             RoundedInputField(
               hintText: "Your Email",
-              onChanged: (value) {},
+              onChanged: (value) {
+                email = value.toString();
+              },
             ),
             RoundedPasswordField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                password = value.toString();
+              },
             ),
             RoundedButton(
               text: "SIGNUP",
-              press: () {},
+              press: () {
+                signup(email, password).then((value) => {
+                      user.id = value.toString(),
+                      user.email = email
+                    });
+              },
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
