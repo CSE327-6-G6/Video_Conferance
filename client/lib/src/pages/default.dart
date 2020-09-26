@@ -29,8 +29,30 @@ class _MyHomePageState extends State<MyHomePage>
     _tabController = TabController(vsync: this, initialIndex: 0, length: 2);
   }
 
-    @override
+  @override
   bool get wantKeepAlive => true;
+
+  createAlertDialogue(BuildContext context) {
+    TextEditingController _controller = TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Add contact"),
+            content: TextField(
+              controller: _controller,
+            ),
+            actions: <Widget>[
+              MaterialButton(
+                  elevation: 5.0,
+                  child: Text('Submit'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }),
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +86,14 @@ class _MyHomePageState extends State<MyHomePage>
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          createAlertDialogue(context);
+        },
+        // child: Icon(Icons.add),
+        child: Icon(Icons.add_circle_outline),
+        backgroundColor: Colors.purple,
       ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
