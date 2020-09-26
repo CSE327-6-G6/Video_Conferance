@@ -1,4 +1,13 @@
+import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:vChat_v1/src/pages/bottom_navbar.dart';
+import 'package:vChat_v1/src/pages/addContacts_Dialogue.dart';
+import 'package:vChat_v1/src/utils/firebase.dart';
+import 'package:vChat_v1/src/pages/call.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -18,69 +27,192 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  TabController _tabController;
 
-  void _incrementCounter() {
+  PageController _pageController;
+  int _page = 0;
+
+  Future<void> _handleCameraAndMic() async {
+    await PermissionHandler().requestPermissions(
+      [PermissionGroup.camera, PermissionGroup.microphone],
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, initialIndex: 0, length: 2);
+    _pageController = PageController(initialPage: 0);
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  void navigationTapped(int page) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyHomePage(),
+        ));
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  // }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
+  void onPageChanged(int page) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      this._page = page;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      // appBar: AppBar(
-      //   // Here we take the value from the MyHomePage object that was created by
-      //   // the App.build method, and use it to set our appbar title.
-      //   title: Text(widget.title),
-      // ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+      appBar: AppBar(
+        title: TextField(
+          decoration: InputDecoration.collapsed(
+            hintText: 'Search',
+          ),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.filter_list,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            onPressed: () {},
+          ),
+        ],
+        bottom: TabBar(
+          controller: _tabController,
+          indicatorColor: Colors.purple,
+          labelColor: Colors.purple,
+          unselectedLabelColor: Theme.of(context).textTheme.caption.color,
+          isScrollable: false,
+          tabs: <Widget>[
+            Tab(
+              text: "Call",
+            ),
+            Tab(
+              text: "Groups",
             ),
           ],
         ),
       ),
+      body: FutureBuilder<QuerySnapshot>(
+          future: getContacts(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            print(snapshot);
+            if (snapshot.hasError) {
+              return Center(child: Text("Something went wrong"));
+            }
+
+            if (snapshot.connectionState == ConnectionState.done) {
+              return ListView.builder(
+                  itemCount: snapshot.data.docs.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot contact = snapshot.data.docs[index];
+                    return ListTile(
+                      // Access the fields as defined in FireStore
+                      title: Text(contact.data()['uid']),
+                      subtitle: Text(contact.data()['channelID']),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.call,
+                              size: 20.0,
+                              color: Colors.purple,
+                            ),
+                            onPressed: () async{
+                              await _handleCameraAndMic();
+                              print(contact.data()["channelID"]);
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CallPage(
+                                            channelName:
+                                                contact.data()["channelID"],
+                                            role: ClientRole.Broadcaster,
+                                          )));
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  });
+            }
+
+            return Center(child: Text("loading"));
+          }),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        onPressed: () {
+          createAlertDialogue(context);
+        },
+        // child: Icon(Icons.add),
+        child: Icon(Icons.add_circle_outline),
+        backgroundColor: Colors.purple,
+      ),
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          // sets the background color of the `BottomNavigationBar`
+          canvasColor: Colors.white,
+          // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+          primaryColor: Colors.purple,
+          textTheme: Theme.of(context).textTheme.copyWith(
+                caption: TextStyle(color: Colors.black),
+              ),
+        ),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.message,
+              ),
+              title: Container(height: 0.0),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.group,
+              ),
+              title: Container(height: 0.0),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              title: Container(height: 0.0),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.notifications,
+              ),
+              title: Container(height: 0.0),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+              ),
+              title: Container(height: 0.0),
+            ),
+          ],
+          onTap: navigationTapped,
+          currentIndex: _page,
+        ),
+      ),
     );
   }
 }
