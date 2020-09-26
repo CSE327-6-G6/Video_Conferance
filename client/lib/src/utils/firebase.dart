@@ -52,6 +52,17 @@ Future<QuerySnapshot> getContacts() async {
       .doc(userid)
       .collection("contacts")
       .get();
-  
+
   return doc;
+}
+
+Future getSelfInvite() async {
+  SharedPreferences data = await SharedPreferences.getInstance();
+
+  var userid = data.getString("uid");
+
+  var invite =
+      await FirebaseFirestore.instance.collection("users").doc(userid).get();
+
+  data.setString('invite', invite.data()["invite"]) ;
 }

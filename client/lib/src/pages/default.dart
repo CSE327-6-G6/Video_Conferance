@@ -1,10 +1,14 @@
+import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vChat_v1/src/pages/bottom_navbar.dart';
+// import 'package:vChat_v1/src/pages/bottom_navbar.dart';
 import 'package:vChat_v1/src/pages/addContacts_Dialogue.dart';
 import 'package:vChat_v1/src/utils/firebase.dart';
+import 'package:vChat_v1/src/pages/call.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -30,6 +34,12 @@ class _MyHomePageState extends State<MyHomePage>
 
   PageController _pageController;
   int _page = 0;
+
+  Future<void> _handleCameraAndMic() async {
+    await PermissionHandler().requestPermissions(
+      [PermissionGroup.camera, PermissionGroup.microphone],
+    );
+  }
 
   @override
   void initState() {
@@ -79,9 +89,18 @@ class _MyHomePageState extends State<MyHomePage>
         actions: <Widget>[
           IconButton(
             icon: Icon(
-              Icons.filter_list,
+              Icons.view_agenda_rounded,
             ),
-            onPressed: () {},
+            onPressed: () async {
+              SharedPreferences data = await SharedPreferences.getInstance();
+              return showDialog(
+                  context: context, builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Invite Code"),
+                      content: Text(data.getString('invite')),
+                    );
+                  });
+            },
           ),
         ],
         bottom: TabBar(
@@ -118,6 +137,30 @@ class _MyHomePageState extends State<MyHomePage>
                       // Access the fields as defined in FireStore
                       title: Text(contact.data()['uid']),
                       subtitle: Text(contact.data()['channelID']),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.call,
+                              size: 20.0,
+                              color: Colors.purple,
+                            ),
+                            onPressed: () async {
+                              await _handleCameraAndMic();
+                              print(contact.data()["channelID"]);
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CallPage(
+                                            channelName:
+                                                contact.data()["channelID"],
+                                            role: ClientRole.Broadcaster,
+                                          )));
+                            },
+                          ),
+                        ],
+                      ),
                     );
                   });
             }

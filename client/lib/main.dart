@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vChat_v1/src/pages/Screens/Welcome/welcome_screen.dart';
 
 import 'src/pages/default.dart';
@@ -11,6 +12,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,8 +22,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
       ),
-      home: MyHomePage(),
-      // home: WelcomeScreen(),
+      // home: MyHomePage(),
+      home: WelcomeScreen(),
     );
   }
 }

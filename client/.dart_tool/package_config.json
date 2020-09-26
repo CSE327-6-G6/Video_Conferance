@@ -8,6 +8,12 @@
       "languageVersion": "2.2"
     },
     {
+      "name": "agora_rtc_engine",
+      "rootUri": "file:///home/soumics/Software/flutter/.pub-cache/hosted/pub.dartlang.org/agora_rtc_engine-3.0.1-dev.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
       "name": "analyzer",
       "rootUri": "file:///home/soumics/Software/flutter/.pub-cache/hosted/pub.dartlang.org/analyzer-0.40.2",
       "packageUri": "lib/",
@@ -230,6 +236,12 @@
       "languageVersion": "2.10"
     },
     {
+      "name": "json_annotation",
+      "rootUri": "file:///home/soumics/Software/flutter/.pub-cache/hosted/pub.dartlang.org/json_annotation-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
       "name": "logging",
       "rootUri": "file:///home/soumics/Software/flutter/.pub-cache/hosted/pub.dartlang.org/logging-0.11.4",
       "packageUri": "lib/",
@@ -318,6 +330,12 @@
       "rootUri": "file:///home/soumics/Software/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.10.0-nullsafety.1",
       "packageUri": "lib/",
       "languageVersion": "2.10"
+    },
+    {
+      "name": "permission_handler",
+      "rootUri": "file:///home/soumics/Software/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler-3.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
     },
     {
       "name": "petitparser",
@@ -554,7 +572,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-09-26T10:26:50.268966Z",
+  "generated": "2020-09-26T17:54:04.532306Z",
   "generator": "pub",
   "generatorVersion": "2.10.0-110.3.beta"
 }
