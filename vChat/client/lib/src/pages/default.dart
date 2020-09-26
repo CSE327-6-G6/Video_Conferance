@@ -1,5 +1,13 @@
+import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:vChat_v1/src/pages/bottom_navbar.dart';
+import 'package:permission_handler/permission_handler.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:vChat_v1/src/pages/bottom_navbar.dart';
+import 'package:vChat_v1/src/pages/addContacts_Dialogue.dart';
+import 'package:vChat_v1/src/utils/firebase.dart';
+import 'package:vChat_v1/src/pages/call.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -23,14 +31,50 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController _tabController;
 
+  PageController _pageController;
+  int _page = 0;
+
+  Future<void> _handleCameraAndMic() async {
+    await PermissionHandler().requestPermissions(
+      [PermissionGroup.camera, PermissionGroup.microphone],
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, initialIndex: 0, length: 2);
+    _pageController = PageController(initialPage: 0);
   }
 
-    @override
+  @override
   bool get wantKeepAlive => true;
+
+  void navigationTapped(int page) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyHomePage(),
+        ));
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  // }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
+  void onPageChanged(int page) {
+    setState(() {
+      this._page = page;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +101,69 @@ class _MyHomePageState extends State<MyHomePage>
           isScrollable: false,
           tabs: <Widget>[
             Tab(
-              text: "Message",
+              text: "Call",
             ),
             Tab(
               text: "Groups",
             ),
           ],
         ),
+      ),
+      body: FutureBuilder<QuerySnapshot>(
+          future: getContacts(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            print(snapshot);
+            if (snapshot.hasError) {
+              return Center(child: Text("Something went wrong"));
+            }
+
+            if (snapshot.connectionState == ConnectionState.done) {
+              return ListView.builder(
+                  itemCount: snapshot.data.docs.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot contact = snapshot.data.docs[index];
+                    return ListTile(
+                      // Access the fields as defined in FireStore
+                      title: Text(contact.data()['uid']),
+                      subtitle: Text(contact.data()['channelID']),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.call,
+                              size: 20.0,
+                              color: Colors.purple,
+                            ),
+                            onPressed: () async{
+                              await _handleCameraAndMic();
+                              print(contact.data()["channelID"]);
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CallPage(
+                                            channelName:
+                                                contact.data()["channelID"],
+                                            role: ClientRole.Broadcaster,
+                                          )));
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  });
+            }
+
+            return Center(child: Text("loading"));
+          }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          createAlertDialogue(context);
+        },
+        // child: Icon(Icons.add),
+        child: Icon(Icons.add_circle_outline),
+        backgroundColor: Colors.purple,
       ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
@@ -75,7 +175,43 @@ class _MyHomePageState extends State<MyHomePage>
                 caption: TextStyle(color: Colors.black),
               ),
         ),
-        child: BottomNavBar(),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.message,
+              ),
+              title: Container(height: 0.0),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.group,
+              ),
+              title: Container(height: 0.0),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              title: Container(height: 0.0),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.notifications,
+              ),
+              title: Container(height: 0.0),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+              ),
+              title: Container(height: 0.0),
+            ),
+          ],
+          onTap: navigationTapped,
+          currentIndex: _page,
+        ),
       ),
     );
   }
