@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vChat_v1/src/pages/bottom_navbar.dart';
+import 'package:vChat_v1/src/pages/addContacts_Dialogue.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -32,28 +33,6 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   bool get wantKeepAlive => true;
 
-  createAlertDialogue(BuildContext context) {
-    TextEditingController _controller = TextEditingController();
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Add contact"),
-            content: TextField(
-              controller: _controller,
-            ),
-            actions: <Widget>[
-              MaterialButton(
-                  elevation: 5.0,
-                  child: Text('Submit'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }),
-            ],
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage>
           isScrollable: false,
           tabs: <Widget>[
             Tab(
-              text: "Message",
+              text: "Call",
             ),
             Tab(
               text: "Groups",

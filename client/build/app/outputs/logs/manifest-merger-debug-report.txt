@@ -6,6 +6,7 @@ INJECTED from /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/
 INJECTED from /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/android/app/src/main/AndroidManifest.xml:1:1-47:12
 MERGED from /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/android/app/src/main/AndroidManifest.xml:1:1-47:12
 MERGED from [:firebase_auth] /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
+MERGED from [:shared_preferences] /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:cloud_firestore] /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_core] /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
 MERGED from [androidx.multidex:multidex:2.0.1] /home/soumics/.gradle/caches/transforms-2/files-2.1/f4c9a0cc19fb279558ca4732f14fd7a8/multidex-2.0.1/AndroidManifest.xml:17:1-22:12
@@ -171,6 +172,8 @@ INJECTED from /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/
 INJECTED from /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/android/app/src/main/AndroidManifest.xml
 MERGED from [:firebase_auth] /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_auth] /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences] /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences] /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:cloud_firestore] /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:cloud_firestore] /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] /mnt/923a0130-906c-4681-91c3-1eb8c86f0346/Dropbox/Projects/CSE327/soumic/client/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44

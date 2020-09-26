@@ -14,6 +14,9 @@ import 'package:vChat_v1/src/utils/firebase.dart';
 import 'package:vChat_v1/src/models/User.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../default.dart';
 
 class Body extends StatelessWidget {
   String email;
@@ -54,15 +57,28 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "SIGNUP",
               press: () async {
-                await signup(email, password).then((value) =>
-                    {user.id = value.toString(), user.email = email});
+                SharedPreferences data = await SharedPreferences.getInstance();
 
-                await http.post(url, body: {
-                  'uid': user.id,
-                  'email': user.email,
-                }).then((value) => {
-                  print(value.statusCode)
-                });
+
+                await signup(email, password)
+                    .then((value) => {
+                          print(value),
+                          user.id = value.toString(),
+                          data.setString("uid", user.id),
+                          user.email = email,
+                        })
+                    .then((value) => {
+                          http.post(url, body: {
+                            'uid': user.id,
+                            'email': email,
+                          }).then((value) => {print(value.statusCode)})
+                        });
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyHomePage(),
+                    ));
               },
             ),
             SizedBox(height: size.height * 0.03),

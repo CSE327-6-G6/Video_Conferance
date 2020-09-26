@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
       ),
-      home: MyHomePage(),
-      // home: WelcomeScreen(),
+      // home: MyHomePage(),
+      home: WelcomeScreen(),
     );
   }
 }

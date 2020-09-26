@@ -20,8 +20,8 @@ class User {
     _id = id;
   }
 
-  set email(String id) {
-    _id = id;
+  set email(String email) {
+    _email = email;
   }
 
   User.fromJson(Map<String, dynamic> json)

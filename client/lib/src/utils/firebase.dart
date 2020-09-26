@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+Future getCurrentUser() async {
+  return FirebaseAuth.instance.currentUser.uid;
+}
 
 Future signup(String email, String password) async {
   try {
