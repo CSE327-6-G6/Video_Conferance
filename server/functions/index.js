@@ -31,6 +31,14 @@ function genInvite() {
   return invite;
 }
 
+function getChannelID() {
+  var channelID = randomstring.generate({
+    length: 12,
+  });
+
+  return channelID;
+}
+
 // Microservices
 
 exports.channelID = functions.https.onRequest((request, response) => {
@@ -41,13 +49,12 @@ exports.channelID = functions.https.onRequest((request, response) => {
 });
 
 exports.invite = functions.https.onRequest((request, response) => {
-
   response.send(genInvite());
 });
 
 exports.regUser = functions.https.onRequest((request, response) => {
-  var uid = request.body['uid'];
-  var email = request.body['email'];
+  var uid = request.body["uid"];
+  var email = request.body["email"];
   var invite = genInvite();
 
   console.log(uid);
@@ -59,10 +66,68 @@ exports.regUser = functions.https.onRequest((request, response) => {
     .set({
       uid: uid,
       email: email,
-      invite: invite
+      invite: invite,
     })
     .then((data) => {
-      response.send(200);
+      firebase.firestore().collection("invites").doc(invite).set({
+        uid: uid,
+      });
+      return 0;
+    })
+    .catch((e) => {
+      console.log(e.toString());
+    });
+
+  response.send(200);
+});
+
+exports.addContacts = functions.https.onRequest((request, response) => {
+  var user_uid = request.body["uid"];
+  var invite = request.body["invite"];
+  var channelID = getChannelID();
+  var contact_uid;
+
+  async function mutualADD(_user_uid, _contact_uid, _channelID) {
+
+    // Add contact to user
+    await firebase
+      .firestore()
+      .collection("users")
+      .doc(_user_uid)
+      .collection("contacts")
+      .doc(_contact_uid)
+      .set({
+        uid: _contact_uid,
+        channelID: _channelID,
+      });
+
+    //  add user to contact
+    await firebase
+      .firestore()
+      .collection("users")
+      .doc(_contact_uid)
+      .collection("contacts")
+      .doc(_user_uid)
+      .set({
+        uid: _user_uid,
+        channelID: _channelID,
+      });
+
+    response.send(200);
+  }
+
+  firebase
+    .firestore()
+    .collection("invites")
+    .doc(invite)
+    .get()
+    .then((doc) => {
+      contact_uid = doc.data()["uid"];
+      console.log(doc.data());
+
+      //  update user contact 
+
+      mutualADD(user_uid, contact_uid, channelID);
       return 0;
     })
     .catch((e) => {
@@ -74,9 +139,8 @@ exports.regUser = functions.https.onRequest((request, response) => {
 //     var uid = request.query.uid;
 //     var email = request.query.email;
 //     var invite = genInvite();
-  
+
 //     console.log(request.body['uid']);
 
 //     response.send(200);
 //   });
-  

@@ -24,6 +24,7 @@ void main() async {
   }).then((value) => {
         print(value.statusCode),
         test('http', () {
+          print(uid);
           expect(value.statusCode, 200);
         })
       });
