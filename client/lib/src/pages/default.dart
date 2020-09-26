@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vChat_v1/src/pages/bottom_navbar.dart';
 import 'package:vChat_v1/src/pages/addContacts_Dialogue.dart';
+import 'package:vChat_v1/src/utils/firebase.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -24,14 +28,44 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController _tabController;
 
+  PageController _pageController;
+  int _page = 0;
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, initialIndex: 0, length: 2);
+    _pageController = PageController(initialPage: 0);
   }
 
   @override
   bool get wantKeepAlive => true;
+
+  void navigationTapped(int page) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyHomePage(),
+        ));
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  // }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
+  void onPageChanged(int page) {
+    setState(() {
+      this._page = page;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +100,30 @@ class _MyHomePageState extends State<MyHomePage>
           ],
         ),
       ),
+      body: FutureBuilder<QuerySnapshot>(
+          future: getContacts(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            print(snapshot);
+            if (snapshot.hasError) {
+              return Center(child: Text("Something went wrong"));
+            }
+
+            if (snapshot.connectionState == ConnectionState.done) {
+              return ListView.builder(
+                  itemCount: snapshot.data.docs.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot contact = snapshot.data.docs[index];
+                    return ListTile(
+                      // Access the fields as defined in FireStore
+                      title: Text(contact.data()['uid']),
+                      subtitle: Text(contact.data()['channelID']),
+                    );
+                  });
+            }
+
+            return Center(child: Text("loading"));
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           createAlertDialogue(context);
@@ -84,7 +142,43 @@ class _MyHomePageState extends State<MyHomePage>
                 caption: TextStyle(color: Colors.black),
               ),
         ),
-        child: BottomNavBar(),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.message,
+              ),
+              title: Container(height: 0.0),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.group,
+              ),
+              title: Container(height: 0.0),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              title: Container(height: 0.0),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.notifications,
+              ),
+              title: Container(height: 0.0),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+              ),
+              title: Container(height: 0.0),
+            ),
+          ],
+          onTap: navigationTapped,
+          currentIndex: _page,
+        ),
       ),
     );
   }

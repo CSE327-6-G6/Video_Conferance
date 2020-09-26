@@ -33,8 +33,12 @@ class BottomNavBar extends StatelessWidget {
           title: Container(height: 0.0),
         ),
       ],
-      // onTap: ,
-      // currentIndex: null,
+      onTap:null ,
+      currentIndex: null,
     );
+
+    
   }
+
+  
 }
