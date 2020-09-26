@@ -7,15 +7,21 @@ import 'package:vChat_v1/src/pages/components/already_have_an_account_acheck.dar
 import 'package:vChat_v1/src/pages/components/rounded_button.dart';
 import 'package:vChat_v1/src/pages/components/rounded_input_field.dart';
 import 'package:vChat_v1/src/pages/components/rounded_password_field.dart';
+
+import 'package:flutter_svg/svg.dart';
+
 import 'package:vChat_v1/src/utils/firebase.dart';
 import 'package:vChat_v1/src/models/User.dart';
-import 'package:flutter_svg/svg.dart';
+
+import 'package:http/http.dart' as http;
 
 class Body extends StatelessWidget {
   String email;
   String password;
 
   User user = User.empty();
+
+  var url = 'https://us-central1-vchat-34b0a.cloudfunctions.net/regUser';
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +53,16 @@ class Body extends StatelessWidget {
             ),
             RoundedButton(
               text: "SIGNUP",
-              press: () {
-                signup(email, password).then((value) => {
-                      user.id = value.toString(),
-                      user.email = email
-                    });
+              press: () async {
+                await signup(email, password).then((value) =>
+                    {user.id = value.toString(), user.email = email});
+
+                await http.post(url, body: {
+                  'uid': user.id,
+                  'email': user.email,
+                }).then((value) => {
+                  print(value.statusCode)
+                });
               },
             ),
             SizedBox(height: size.height * 0.03),

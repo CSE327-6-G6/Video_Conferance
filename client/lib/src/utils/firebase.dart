@@ -1,12 +1,10 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-Future signup(email, password) async {
+Future signup(String email, String password) async {
   try {
-    await Firebase.initializeApp();
     UserCredential userCredential = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
-    print(userCredential);
 
     return FirebaseAuth.instance.currentUser.uid;
   } on FirebaseAuthException catch (e) {
@@ -19,3 +17,23 @@ Future signup(email, password) async {
     print(e.toString());
   }
 }
+
+Future signin(String email, String password) async {
+  try {
+    UserCredential userCredential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: email, password: password);
+
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      print('No user found for that email.');
+    } else if (e.code == 'wrong-password') {
+      print('Wrong password provided for that user.');
+    }
+  }
+}
+
+Future signout() async {
+  await FirebaseAuth.instance.signOut();
+}
+
