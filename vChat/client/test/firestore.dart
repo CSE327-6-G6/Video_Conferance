@@ -22,8 +22,21 @@ void main() async {
             print(value),
           });
   var userid = FirebaseAuth.instance.currentUser.uid;
-  FirebaseFirestore.instance.collection("users").doc(userid).collection("contacts").get().then((value) => {
-        print(value.docs.length)
-      });
+  await FirebaseFirestore.instance
+      .collection("users")
+      .doc(userid)
+      .collection("contacts")
+      .get()
+      .then((value) => {
+            print(value.docs.length),
+          });
+
+  await FirebaseFirestore.instance
+      .collection("users")
+      .doc(userid)
+      .get()
+      .then((value) => {
+            print(value.data()["invite"]),
+          });
 }
 // print(value.docs[1].data()["uid"])

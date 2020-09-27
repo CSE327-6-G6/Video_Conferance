@@ -16,7 +16,7 @@ import 'package:vChat_v1/src/models/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../default.dart';
+import 'package:vChat_v1/src/pages/Screens/Lobby/callList.dart';
 
 class Body extends StatelessWidget {
   String email;
@@ -59,7 +59,6 @@ class Body extends StatelessWidget {
               press: () async {
                 SharedPreferences data = await SharedPreferences.getInstance();
 
-
                 await signup(email, password)
                     .then((value) => {
                           print(value),
@@ -71,13 +70,16 @@ class Body extends StatelessWidget {
                           http.post(url, body: {
                             'uid': user.id,
                             'email': email,
-                          }).then((value) => {print(value.statusCode)})
+                          }).then((value) => {
+                                print(value.statusCode),
+                                getSelfInvite()
+                              })
                         });
 
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyHomePage(),
+                      builder: (context) => CallList(),
                     ));
               },
             ),

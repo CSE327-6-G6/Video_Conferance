@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:vChat_v1/src/pages/Screens/Welcome/welcome_screen.dart';
 
-import 'src/pages/default.dart';
+import 'src/pages/Screens/Lobby/callList.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(Vchat());
 }
 
-class MyApp extends StatelessWidget {
+class Vchat extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,8 +21,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
       ),
-      home: MyHomePage(),
-      // home: WelcomeScreen(),
+      // home: MyHomePage(),
+      home: WelcomeScreen(),
     );
   }
 }
