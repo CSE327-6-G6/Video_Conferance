@@ -4,6 +4,9 @@ firebase.initializeApp();
 const functions = require("firebase-functions");
 var randomstring = require("randomstring"); 
 
+
+// *mark needs fixing
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -93,7 +96,9 @@ exports.addContacts = functions.https.onRequest((request, response) => {
   var invite = request.body["invite"];
   var channelID = getChannelID();
   var contact_uid;
+  var contact_email;
 
+  // *function needs to add email and name
   async function mutualADD(_user_uid, _contact_uid, _channelID) {
 
     // Add contact to user
@@ -131,6 +136,7 @@ exports.addContacts = functions.https.onRequest((request, response) => {
     .get()
     .then((doc) => {
       contact_uid = doc.data()["uid"];
+      contact_email = doc.data()["email"];
       console.log(doc.data());
 
       //  update user contact 
