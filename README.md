@@ -10,7 +10,8 @@ N.B This is an academic assignment. Implemented using Agora.io API.
 1. Lobby(one to one)  
 2. Add Contacts  
 3. Invite Code  
-4. Video call //Using agora.io API
+4. Video call //Using agora.io API  
+
 **Logic-**
 1. Firebase CRUD //partial
 2. HTTP POST request
