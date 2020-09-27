@@ -7,10 +7,10 @@ import 'src/pages/Screens/Lobby/callList.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(Vchat());
 }
 
-class MyApp extends StatelessWidget {
+class Vchat extends StatelessWidget {
 
 
   @override
