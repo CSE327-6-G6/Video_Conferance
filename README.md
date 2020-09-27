@@ -2,6 +2,9 @@
 
 N.B This is an academic assignment. Implemented using Agora.io API.
 
+
+![WhatsApp Image 2020-09-27 at 8 49 38 PM](https://user-images.githubusercontent.com/34795471/94368084-29570d80-0104-11eb-81f2-80be0c972013.jpeg)
+
 ## Implemented Features:  
 {including registration and Login}  
 
