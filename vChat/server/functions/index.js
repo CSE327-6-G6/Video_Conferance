@@ -2,7 +2,7 @@ const firebase = require("firebase-admin");
 firebase.initializeApp();
 
 const functions = require("firebase-functions");
-var randomstring = require("randomstring");
+var randomstring = require("randomstring"); 
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -10,6 +10,8 @@ var randomstring = require("randomstring");
 
 // Helper
 
+
+//  generate invite code
 function genInvite() {
   var init = randomstring.generate({
     length: 3,
@@ -31,6 +33,8 @@ function genInvite() {
   return invite;
 }
 
+
+// generate channel id
 function getChannelID() {
   var channelID = randomstring.generate({
     length: 12,
@@ -41,6 +45,7 @@ function getChannelID() {
 
 // Microservices
 
+// response -> channelID [test]
 exports.channelID = functions.https.onRequest((request, response) => {
   var channelID = randomstring.generate({
     length: 12,
@@ -52,6 +57,7 @@ exports.invite = functions.https.onRequest((request, response) => {
   response.send(genInvite());
 });
 
+// add user to database
 exports.regUser = functions.https.onRequest((request, response) => {
   var uid = request.body["uid"];
   var email = request.body["email"];
@@ -81,6 +87,7 @@ exports.regUser = functions.https.onRequest((request, response) => {
   response.send(200);
 });
 
+// add contacts to user database
 exports.addContacts = functions.https.onRequest((request, response) => {
   var user_uid = request.body["uid"];
   var invite = request.body["invite"];
@@ -135,12 +142,13 @@ exports.addContacts = functions.https.onRequest((request, response) => {
     });
 });
 
-// exports.regUsertest = functions.https.onRequest((request, response) => {
-//     var uid = request.query.uid;
-//     var email = request.query.email;
-//     var invite = genInvite();
+// Check if data is recieved [test]
+exports.regUsertest = functions.https.onRequest((request, response) => {
+    var uid = request.query.uid;
+    var email = request.query.email;
+    var invite = genInvite();
 
-//     console.log(request.body['uid']);
+    console.log(request.body['uid']);
 
-//     response.send(200);
-//   });
+    response.send(200);
+  });
