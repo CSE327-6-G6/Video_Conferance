@@ -65,6 +65,7 @@ class Body extends StatelessWidget {
               text: "SIGNUP",
               press: () async {
                 SharedPreferences data = await SharedPreferences.getInstance();
+                await data.setString("name", name);
 
                 await signup(email, password)
                     .then((value) => {
@@ -77,9 +78,11 @@ class Body extends StatelessWidget {
                           http.post(url, body: {
                             'uid': user.id,
                             'email': user.email,
-                            'name' : name,
-                          }).then((value) =>
-                              {print(value.statusCode), getSelfInvite()})
+                            'name': name,
+                          }).then((value) => {
+                                print(value.statusCode),
+                                getSelfInvite(),
+                              })
                         });
 
                 Navigator.push(

@@ -5,8 +5,9 @@ import 'package:vChat_v1/src/pages/Screens/Lobby/addContacts_Dialogue.dart';
 import 'package:vChat_v1/src/pages/Screens/Lobby/callList.dart';
 
 createAlertDialogue(BuildContext context) {
-  TextEditingController _controller = TextEditingController();
-  var url = "https://us-central1-vchat-34b0a.cloudfunctions.net/addContacts";
+  TextEditingController _invite = TextEditingController();
+  var addContact =
+      "https://us-central1-vchat-34b0a.cloudfunctions.net/addContacts";
 
   return showDialog(
       context: context,
@@ -14,7 +15,7 @@ createAlertDialogue(BuildContext context) {
         return AlertDialog(
           title: Text("Add contact"),
           content: TextField(
-            controller: _controller,
+            controller: _invite,
           ),
           actions: <Widget>[
             MaterialButton(
@@ -25,9 +26,11 @@ createAlertDialogue(BuildContext context) {
                       await SharedPreferences.getInstance();
                   print(data.getString("uid"));
 
-                  await http.post(url, body: {
+                  await http.post(addContact, body: {
+                    // add contact
                     'uid': data.getString('uid'),
-                    'invite': _controller.text.toString()
+                    'invite': _invite.text.toString(),
+                    'name': data.getString('name'),
                   }).then((value) => {
                         print(value),
                         Navigator.pop(context),

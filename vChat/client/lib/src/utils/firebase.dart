@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 // get user id of current signed in user
 Future getCurrentUser() async {
   return FirebaseAuth.instance.currentUser.uid;
@@ -69,5 +68,5 @@ Future getSelfInvite() async {
   var invite =
       await FirebaseFirestore.instance.collection("users").doc(userid).get();
 
-  data.setString('invite', invite.data()["invite"]) ;
+  data.setString('invite', invite.data()["invite"]);
 }

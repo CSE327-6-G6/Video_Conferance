@@ -81,6 +81,7 @@ exports.regUser = functions.https.onRequest((request, response) => {
     .then((data) => {
       firebase.firestore().collection("invites").doc(invite).set({
         uid: uid,
+        name: name,
       });
       return 0;
     })
@@ -95,12 +96,13 @@ exports.regUser = functions.https.onRequest((request, response) => {
 exports.addContacts = functions.https.onRequest((request, response) => {
   var user_uid = request.body["uid"];
   var invite = request.body["invite"];
+  var user_name = request.body["name"];
   var channelID = getChannelID();
   var contact_uid;
-  var contact_email;
+  var contact_name;
 
   // *function needs to add email and name
-  async function mutualADD(_user_uid, _contact_uid, _channelID) {
+  async function mutualADD(_user_uid, _contact_uid, _channelID, _contact_name, _user_name) {
     // Add contact to user
     await firebase
       .firestore()
@@ -111,6 +113,7 @@ exports.addContacts = functions.https.onRequest((request, response) => {
       .set({
         uid: _contact_uid,
         channelID: _channelID,
+        name: _contact_name,
       });
 
     //  add user to contact
@@ -123,6 +126,7 @@ exports.addContacts = functions.https.onRequest((request, response) => {
       .set({
         uid: _user_uid,
         channelID: _channelID,
+        name: _user_name,
       });
 
     response.send(200);
@@ -136,12 +140,12 @@ exports.addContacts = functions.https.onRequest((request, response) => {
     .get()
     .then((doc) => {
       contact_uid = doc.data()["uid"];
-      contact_email = doc.data()["email"];
+      contact_name = doc.data()["name"];
       console.log(doc.data());
-
+      
       //  update user contact
 
-      mutualADD(user_uid, contact_uid, channelID);
+      mutualADD(user_uid, contact_uid, channelID, contact_name, user_name);
       return 0;
     })
     .catch((e) => {
