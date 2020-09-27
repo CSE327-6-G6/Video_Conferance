@@ -135,7 +135,7 @@ class _CallList extends State<CallList>
                     DocumentSnapshot contact = snapshot.data.docs[index];
                     return ListTile(
                       // Access the fields as defined in FireStore
-                      title: Text(contact.data()['uid']),
+                      title: Text(contact.data()['name']),
                       subtitle: Text(contact.data()['channelID']),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,

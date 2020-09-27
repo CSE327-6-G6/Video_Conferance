@@ -3,24 +3,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vChat_v1/src/utils/firebase.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  // HTTP endpoints
   var addContact =
       "https://us-central1-vchat-34b0a.cloudfunctions.net/addContacts";
   var regUser = 'https://us-central1-vchat-34b0a.cloudfunctions.net/regUser';
 
   const _chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+
+  // Random String Generator
   Random _rnd = Random();
 
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
+  // add user to database [2 -> n]
   Future addUser(nameList, userIdList, invites) async {
     String password = getRandomString(6);
     String name = getRandomString(5);
