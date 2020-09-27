@@ -2,8 +2,7 @@ const firebase = require("firebase-admin");
 firebase.initializeApp();
 
 const functions = require("firebase-functions");
-var randomstring = require("randomstring"); 
-
+var randomstring = require("randomstring");
 
 // *mark needs fixing
 
@@ -12,7 +11,6 @@ var randomstring = require("randomstring");
 //
 
 // Helper
-
 
 //  generate invite code
 function genInvite() {
@@ -35,7 +33,6 @@ function genInvite() {
 
   return invite;
 }
-
 
 // generate channel id
 function getChannelID() {
@@ -62,13 +59,16 @@ exports.invite = functions.https.onRequest((request, response) => {
 
 // add user to database
 exports.regUser = functions.https.onRequest((request, response) => {
+  // read data form incomming request
   var uid = request.body["uid"];
   var email = request.body["email"];
+  var name = request.body["name"];
+  // generate invite
   var invite = genInvite();
 
   console.log(uid);
 
-  firebase
+  firebase // push userID, email, name and invite to database
     .firestore()
     .collection("users")
     .doc(uid)
@@ -76,6 +76,7 @@ exports.regUser = functions.https.onRequest((request, response) => {
       uid: uid,
       email: email,
       invite: invite,
+      name: name,
     })
     .then((data) => {
       firebase.firestore().collection("invites").doc(invite).set({
@@ -100,7 +101,6 @@ exports.addContacts = functions.https.onRequest((request, response) => {
 
   // *function needs to add email and name
   async function mutualADD(_user_uid, _contact_uid, _channelID) {
-
     // Add contact to user
     await firebase
       .firestore()
@@ -139,7 +139,7 @@ exports.addContacts = functions.https.onRequest((request, response) => {
       contact_email = doc.data()["email"];
       console.log(doc.data());
 
-      //  update user contact 
+      //  update user contact
 
       mutualADD(user_uid, contact_uid, channelID);
       return 0;
@@ -151,11 +151,11 @@ exports.addContacts = functions.https.onRequest((request, response) => {
 
 // Check if data is recieved [test]
 exports.regUsertest = functions.https.onRequest((request, response) => {
-    var uid = request.query.uid;
-    var email = request.query.email;
-    var invite = genInvite();
+  var uid = request.query.uid;
+  var email = request.query.email;
+  var invite = genInvite();
 
-    console.log(request.body['uid']);
+  console.log(request.body["uid"]);
 
-    response.send(200);
-  });
+  response.send(200);
+});
