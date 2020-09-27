@@ -6,12 +6,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:vChat_v1/src/pages/bottom_navbar.dart';
-import 'package:vChat_v1/src/pages/addContacts_Dialogue.dart';
+import 'package:vChat_v1/src/pages/Screens/Lobby/addContacts_Dialogue.dart';
 import 'package:vChat_v1/src/utils/firebase.dart';
-import 'package:vChat_v1/src/pages/call.dart';
+import 'package:vChat_v1/src/pages/Screens/videoCall/call.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class CallList extends StatefulWidget {
+  CallList({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -25,10 +25,10 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _CallList createState() => _CallList();
 }
 
-class _MyHomePageState extends State<MyHomePage>
+class _CallList extends State<CallList>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController _tabController;
 
@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage>
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MyHomePage(),
+          builder: (context) => CallList(),
         ));
   }
 

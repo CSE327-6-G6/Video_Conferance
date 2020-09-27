@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vChat_v1/src/pages/Screens/Welcome/welcome_screen.dart';
 
-import 'src/pages/default.dart';
+import 'src/pages/Screens/Lobby/callList.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

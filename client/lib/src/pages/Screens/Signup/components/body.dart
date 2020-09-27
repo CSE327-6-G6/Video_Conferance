@@ -16,7 +16,7 @@ import 'package:vChat_v1/src/models/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../default.dart';
+import 'package:vChat_v1/src/pages/Screens/Lobby/callList.dart';
 
 class Body extends StatelessWidget {
   String email;
@@ -79,7 +79,7 @@ class Body extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyHomePage(),
+                      builder: (context) => CallList(),
                     ));
               },
             ),
