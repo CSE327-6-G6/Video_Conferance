@@ -70,10 +70,8 @@ class Body extends StatelessWidget {
                           http.post(url, body: {
                             'uid': user.id,
                             'email': email,
-                          }).then((value) => {
-                                print(value.statusCode),
-                                getSelfInvite()
-                              })
+                          }).then((value) =>
+                              {print(value.statusCode), getSelfInvite()})
                         });
 
                 Navigator.push(

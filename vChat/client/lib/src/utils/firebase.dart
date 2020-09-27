@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+// get user id of current signed in user
 Future getCurrentUser() async {
   return FirebaseAuth.instance.currentUser.uid;
 }
 
+// register user with firebase auth
 Future signup(String email, String password) async {
   try {
     UserCredential userCredential = await FirebaseAuth.instance
@@ -23,6 +26,7 @@ Future signup(String email, String password) async {
   }
 }
 
+// Login user
 Future signin(String email, String password) async {
   try {
     UserCredential userCredential = await FirebaseAuth.instance
@@ -36,6 +40,7 @@ Future signin(String email, String password) async {
   }
 }
 
+// Logout
 Future signout() async {
   await FirebaseAuth.instance.signOut();
 }

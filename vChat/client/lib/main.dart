@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:vChat_v1/src/pages/Screens/Welcome/welcome_screen.dart';
 
-import 'src/pages/Screens/Lobby/callList.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +20,6 @@ class Vchat extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
       ),
-      // home: MyHomePage(),
       home: WelcomeScreen(),
     );
   }
