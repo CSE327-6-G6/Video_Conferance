@@ -21,6 +21,7 @@ import 'package:vChat_v1/src/pages/Screens/Lobby/callList.dart';
 class Body extends StatelessWidget {
   String email;
   String password;
+  String name;
 
   User user = User.empty();
 
@@ -41,7 +42,13 @@ class Body extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
             SvgPicture.asset(
               "assets/icons/signup.svg",
-              height: size.height * 0.35,
+              height: size.height * 0.25,
+            ),
+            RoundedInputField(
+              hintText: "Your Name",
+              onChanged: (value) {
+                name = value.toString();
+              },
             ),
             RoundedInputField(
               hintText: "Your Email",
@@ -69,7 +76,8 @@ class Body extends StatelessWidget {
                     .then((value) => {
                           http.post(url, body: {
                             'uid': user.id,
-                            'email': email,
+                            'email': user.email,
+                            'name' : name,
                           }).then((value) =>
                               {print(value.statusCode), getSelfInvite()})
                         });
