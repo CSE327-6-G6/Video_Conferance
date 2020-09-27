@@ -123,6 +123,7 @@ exports.addContacts = functions.https.onRequest((request, response) => {
     response.send(200);
   }
 
+  // get user id by invite
   firebase
     .firestore()
     .collection("invites")
